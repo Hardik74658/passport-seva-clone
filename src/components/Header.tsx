@@ -32,11 +32,16 @@ const Header = () => {
   const mainNavItems = [
     { 
       title: "Passport Services", 
-      href: "/services" 
+      href: "/apply",
+     
     },
     { 
       title: "Track Application", 
       href: "/track" 
+    },
+    { 
+      title: "Dashboard", 
+      href: "/dashboard" 
     },
     { 
       title: "Document Requirements", 
@@ -77,8 +82,32 @@ const Header = () => {
   };
 
   const handleSubItemClick = (href) => {
-    setActiveTab(href); 
+    setActiveTab(href); // Set the active tab based on the clicked sub-item
   };
+
+  useEffect(() => {
+    // When location changes, update active tab based on current path
+    const currentPath = location.pathname;
+    
+    // Find if current path matches any subitem
+    for (const item of mainNavItems) {
+      if (item.items) {
+        const matchingSubItem = item.items.find(subItem => 
+          currentPath.startsWith(subItem.href)
+        );
+        if (matchingSubItem) {
+          setActiveTab(matchingSubItem.href);
+          return;
+        }
+      }
+      
+      // Check if the current path matches a main item
+      if (item.href !== '#' && currentPath.startsWith(item.href)) {
+        setActiveTab(item.href);
+        return;
+      }
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,6 +124,17 @@ const Header = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // Helper function to determine if a parent item should be highlighted
+  const isParentActive = (item) => {
+    if (item.href !== '#' && activeTab === item.href) return true;
+    
+    if (item.items) {
+      return item.items.some(subItem => activeTab === subItem.href);
+    }
+    
+    return false;
+  };
 
   return (
     <header className={`sticky top-0 z-50 w-full bg-white border-b transition-all duration-300 ${isScrolled ? 'shadow-lg' : 'shadow-sm'}`}>
@@ -149,7 +189,7 @@ const Header = () => {
                       <NavigationMenuTrigger 
                         className={cn(
                           "h-auto py-2 px-4 text-sm font-medium rounded-full transition-all duration-300",
-                          activeTab.startsWith(item.href) 
+                          isParentActive(item)
                             ? "text-white bg-gradient-to-r from-navy-600 to-navy-700 shadow-md" 
                             : "text-navy-700 hover:bg-navy-50"
                         )}
@@ -168,8 +208,11 @@ const Header = () => {
                               <NavigationMenuLink asChild key={subItem.title}>
                                 <Link 
                                   to={subItem.href}
-                                  onClick={() => handleSubItemClick(subItem.href)} 
-                                  className="flex items-start gap-3 rounded-xl p-3 hover:bg-gray-50 transition-colors group"
+                                  onClick={() => handleSubItemClick(subItem.href)}
+                                  className={cn(
+                                    "flex items-start gap-3 rounded-xl p-3 hover:bg-gray-50 transition-colors group",
+                                    activeTab === subItem.href ? "bg-navy-50" : ""
+                                  )}
                                 >
                                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-navy-50 to-navy-100 text-navy-700 shadow-sm group-hover:scale-110 transition-transform duration-200">
                                     {subItem.icon}
@@ -187,23 +230,24 @@ const Header = () => {
                     </NavigationMenuItem>
                   ) : (
                     <NavigationMenuItem key={item.title}>
-                      <NavigationMenuLink asChild>
-                        <Link 
-                          to={item.href}
-                          onClick={() => handleSubItemClick(item.href)}
+                      <Link 
+                        to={item.href}
+                        onClick={() => handleSubItemClick(item.href)}
+                      >
+                        <NavigationMenuLink 
+                          className={cn(
+                            "flex h-auto py-2 px-4 text-sm font-medium rounded-full transition-all duration-300",
+                            activeTab === item.href 
+                              ? "text-white bg-gradient-to-r from-navy-600 to-navy-700 shadow-md" 
+                              : "text-navy-700 hover:bg-navy-50"
+                          )}
                         >
                           {item.title}
-                        </Link>
-                      </NavigationMenuLink>
+                        </NavigationMenuLink>
+                      </Link>
                     </NavigationMenuItem>
                   )
                 ))}
-                {/* Add Dashboard link */}
-                <NavigationMenuItem>
-                  <NavigationMenuLink asChild>
-                    <Link to="/dashboard">Dashboard</Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>

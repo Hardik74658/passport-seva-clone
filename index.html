@@ -3,24 +3,66 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>passport-seva-reimagined</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
-
-    <meta property="og:title" content="passport-seva-reimagined" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <title>Passport Seva Online Portal - Official Website</title>
+    <meta name="author" content="Hardik Songara" />
+    <meta name="description" content="Apply online for passport services, track application status, and schedule appointments with Passport Seva Online Portal" />
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Passport Seva Online Portal" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:description" content="Apply online for passport services, track application status, and schedule appointments" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Preconnect to key domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Material Icons for dropdown arrows and UI elements -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Fix for dropdown positioning -->
+    <style>
+      .dropdown-menu {
+        position: absolute;
+        z-index: 100;
+      }
+      
+      /* Ensure navbar has proper z-index */
+      header, nav {
+        z-index: 50;
+        position: relative;
+      }
+      
+      /* Fix for language selector */
+      .language-selector {
+        position: relative;
+      }
+      
+      .language-selector .dropdown-menu {
+        right: 0;
+        min-width: 150px;
+        top: 100%;
+      }
+      
+      /* Fix for contact dropdown */
+      .contact-dropdown {
+        position: relative;
+      }
+      
+      .contact-dropdown .dropdown-menu {
+        left: 50%;
+        transform: translateX(-50%);
+        top: 100%;
+        white-space: nowrap;
+      }
+    </style>
   </head>
 
   <body>
     <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
